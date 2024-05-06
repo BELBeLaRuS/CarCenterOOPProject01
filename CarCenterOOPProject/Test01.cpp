@@ -1,113 +1,114 @@
 #include <iostream> 
-#include <string>
+#include <string> 
 using namespace std;
 
 class Car {
-public:
-    string brand;
-    string model;
-    int price;
+public: string make; string model; int price;
 
-    Car(string b, string m, int p) : brand(b), model(m), price(p) {}
+
+      Car(string _make, string _model, int _price) {
+          make = _make;
+          model = _model;
+          price = _price;
+      }
 };
 
-class AutoSalon {
-public:
-    string type;
-    Car cars[3];
-    int count = 0;
+class CarDealer {
+public: 
+    string name;
+      Car cars[3];
 
-    AutoSalon(string t) : type(t) {}
 
-    void addCar(const Car& car) {
-        if (count < 3) {
-            cars[count++] = car;
-        }
-        else {
-            cout << "Cannot add more cars to the salon." << endl;
-        }
-    }
-
-    void displayCars() {
-        cout << "---------" << type << "---------" << endl;
-        for (int i = 0; i < count; i++) {
-            cout << i + 1 << ". " << cars[i].brand << " " << cars[i].model << " - $" << cars[i].price << endl;
-        }
-    }
-};
+      CarDealer(string _name, Car _car1, Car _car2, Car _car3) {          // тут ошибку выдает 
+          name = _name;                                                   //
+          cars[0] = _car1;                                                //
+          cars[1] = _car2;                                                //
+          cars[2] = _car3;                                                //
+      }                                                                   //
+};                                                                        //
 
 int main() {
+    Car car1("Toyota", "Corolla", 20000); 
+    Car car2("Honda", "Civic", 25000); 
+    Car car3("Ford", "Focus", 18000);
 
-    AutoSalon salon1("Budget");
-    salon1.addCar(Car("Toyota", "Corolla", 10000));
-    salon1.addCar(Car("Honda", "Civic", 12000));
-    salon1.addCar(Car("Nissan", "Sentra", 11000));
 
-    AutoSalon salon2("Mid-range");
-    salon2.addCar(Car("Ford", "Fusion", 20000));
-    salon2.addCar(Car("Chevrolet", "Malibu", 22000));
-    salon2.addCar(Car("Hyundai", "Sonata", 19000));
+    CarDealer dealer1("Affordable Cars", car1, car2, car3);
 
-    AutoSalon salon3("Luxury");
-    salon3.addCar(Car("Mercedes-Benz", "E-Class", 50000));
-    salon3.addCar(Car("BMW", "5 Series", 48000));
-    salon3.addCar(Car("Audi", "A6", 52000));
+    Car car4("Mercedes", "C-Class", 40000);
+    Car car5("BMW", "3 Series", 35000);
+    Car car6("Audi", "A4", 30000);
 
-    AutoSalon salons[] = { salon1, salon2, salon3 };
+    CarDealer dealer2("Luxury Cars", car4, car5, car6);
 
+    Car car7("Chevrolet", "Spark", 15000);
+    Car car8("Hyundai", "Elantra", 17000);
+    Car car9("Kia", "Forte", 16000);
+
+    CarDealer dealer3("Budget Cars", car7, car8, car9);
+
+    CarDealer* currentDealer = &dealer1;
     int balance = 30000;
-    int choice;
+
+    cout << "Welcome to the Car Dealership!" << endl;
+    cout << "You currently have $" << balance << endl;
 
     while (true) {
-        cout << "Welcome to the Auto Salons!" << endl;
-        cout << "Your current balance: $" << balance << endl;
+        cout << "Choose a dealership to visit:" << endl;
+        cout << "1. Affordable Cars" << endl;
+        cout << "2. Luxury Cars" << endl;
+        cout << "3. Budget Cars" << endl;
+        cout << "4. Exit" << endl;
 
-        cout << "Select an Auto Salon to visit:" << endl;
-        for (int i = 0; i < 3; i++) {
-            cout << i + 1 << ". " << salons[i].type << endl;
-        }
-
+        int choice;
         cin >> choice;
 
-        if (choice < 1 || choice > 3) {
+        if (choice == 1) {
+            currentDealer = &dealer1;
+        }
+        else if (choice == 2) {
+            currentDealer = &dealer2;
+        }
+        else if (choice == 3) {
+            currentDealer = &dealer3;
+        }
+        else if (choice == 4) {
+            break;
+        }
+        else {
             cout << "Invalid choice. Please try again." << endl;
             continue;
         }
 
-        cout << "You have selected " << salons[choice - 1].type << " Auto Salon." << endl;
-        salons[choice - 1].displayCars();
+        while (true) {
+            cout << "Choose a car to buy:" << endl;
+            for (int i = 0; i < 3; i++) {
+                cout << i + 1 << ". " << currentDealer->cars[i].make << " " << currentDealer->cars[i].model << " - $" << currentDealer->cars[i].price << endl;
+            }
+            cout << "4. Go back" << endl;
 
-        int carChoice;
-        cout << "Select a car to purchase (enter 0 to go back): ";
-        cin >> carChoice;
+            cin >> choice;
 
-        if (carChoice == 0) {
-            continue;
-        }
-
-        if (carChoice < 1 || carChoice > salons[choice - 1].count) {
-            cout << "Invalid car choice. Please try again." << endl;
-            continue;
-        }
-
-        if (balance < salons[choice - 1].cars[carChoice - 1].price) {
-            cout << "Insufficient balance. Please select another car or add funds." << endl;
-            continue;
-        }
-
-        balance -= salons[choice - 1].cars[carChoice - 1].price;
-        cout << "Congratulations! You have purchased " << salons[choice - 1].cars[carChoice - 1].brand << " " << salons[choice - 1].cars[carChoice - 1].model << "!" << endl;
-        cout << "Remaining balance: $" << balance << endl;
-
-        char option;
-        cout << "Do you want to visit another Auto Salon? (y/n): ";
-        cin >> option;
-
-        if (option == 'n') {
-            cout << "Thank you for visiting the Auto Salons. Have a great day!" << endl;
-            break;
+            if (choice == 4) {
+                break;
+            }
+            else if (choice >= 1 && choice <= 3) {
+                if (currentDealer->cars[choice - 1].price > balance) {
+                    cout << "You don't have enough money to buy this car." << endl;
+                }
+                else {
+                    balance -= currentDealer->cars[choice - 1].price;
+                    cout << "Congratulations! You bought a " << currentDealer->cars[choice - 1].make << " " << currentDealer->cars[choice - 1].model << "." << endl;
+                    cout << "You now have $" << balance << " remaining." << endl;
+                }
+            }
+            else {
+                cout << "Invalid choice. Please try again." << endl;
+            }
         }
     }
+
+    cout << "Thank you for visiting the Car Dealership. Goodbye!" << endl;
 
     return 0;
 }
