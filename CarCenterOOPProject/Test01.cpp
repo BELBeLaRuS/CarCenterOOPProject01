@@ -4,6 +4,10 @@ using namespace std;
 
 class Car {
 public: string make; string model; int price;
+      Car() {
+
+      }
+
 
 
       Car(string _make, string _model, int _price) {
@@ -19,13 +23,26 @@ public:
       Car cars[3];
 
 
-      CarDealer(string _name, Car _car1, Car _car2, Car _car3) {          // тут ошибку выдает 
-          name = _name;                                                   //
-          cars[0] = _car1;                                                //
-          cars[1] = _car2;                                                //
-          cars[2] = _car3;                                                //
-      }                                                                   //
-};                                                                        //
+      CarDealer(string _name, Car _car1, Car _car2, Car _car3) {          
+          name = _name;                                                  
+          cars[0] = _car1;                                               
+          cars[1] = _car2;                                                
+          cars[2] = _car3;                                                
+      }                                                                   
+};   
+
+void earnMoney(int& balance) {
+    int earnings;
+    do {
+        cout << "Enter the amount of money you wanna earn: ";
+        cin >> earnings;
+    } while (earnings <= 0);
+    balance += earnings;
+    system("pause");
+    cout << "*********Loading...*********" << endl;
+    system("pause");
+    cout << "You earned $" << earnings << ". Your total balance is now $" << balance << endl;
+}
 
 int main() {
     Car car1("Toyota", "Corolla", 20000); 
@@ -54,6 +71,8 @@ int main() {
     cout << "You currently have $" << balance << endl;
 
     while (true) {
+        earnMoney(balance);
+
         cout << "Choose a dealership to visit:" << endl;
         cout << "1. Affordable Cars" << endl;
         cout << "2. Luxury Cars" << endl;
@@ -83,7 +102,8 @@ int main() {
         while (true) {
             cout << "Choose a car to buy:" << endl;
             for (int i = 0; i < 3; i++) {
-                cout << i + 1 << ". " << currentDealer->cars[i].make << " " << currentDealer->cars[i].model << " - $" << currentDealer->cars[i].price << endl;
+                cout << i + 1 << ". " << currentDealer->cars[i].make << " " << currentDealer->cars[i].model 
+                    << " - $" << currentDealer->cars[i].price << endl;
             }
             cout << "4. Go back" << endl;
 
@@ -98,7 +118,8 @@ int main() {
                 }
                 else {
                     balance -= currentDealer->cars[choice - 1].price;
-                    cout << "Congratulations! You bought a " << currentDealer->cars[choice - 1].make << " " << currentDealer->cars[choice - 1].model << "." << endl;
+                    cout << "Congratulations! You bought a " << currentDealer->cars[choice - 1].make 
+                        << " " << currentDealer->cars[choice - 1].model << "." << endl;
                     cout << "You now have $" << balance << " remaining." << endl;
                 }
             }
