@@ -36,7 +36,7 @@ void earnMoney(int& balance) {
     do {
         cout << "Enter the amount of money you wanna earn: ";
         cin >> earnings;
-    } while (earnings <= 0);
+    } while (earnings < 0 || earnings >= 35000);
     balance += earnings;
     system("pause");
     cout << "*********Loading...*********" << endl;
